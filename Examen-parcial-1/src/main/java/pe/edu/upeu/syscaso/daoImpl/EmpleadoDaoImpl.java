@@ -10,44 +10,45 @@ import org.springframework.stereotype.Component;
 
 import pe.edu.upeu.syscaso.dao.EmpleadoDao;
 import pe.edu.upeu.syscaso.entity.Empleado;
-import pe.edu.upeu.syscaso.service.EmpleadoService;
+import pe.edu.upeu.syscaso.repository.EmpleadoRepository;
+
 
 
 @Component
 
-public class EmpleadoDaoImpl implements EmpleadoService{
+public class EmpleadoDaoImpl implements EmpleadoDao{
 
 	@Autowired
-	private EmpleadoDao dao;
+	private EmpleadoRepository repository;
 	@Override
 	public Empleado create(Empleado a) {
 		// TODO Auto-generated method stub
-		return dao.create(a);
+		return repository.save(a);
 	}
 
 	@Override
 	public Empleado update(Empleado a) {
 		// TODO Auto-generated method stub
-		return dao.update(a);
+		return repository.save(a);
 	}
 
 	@Override
 	public void delete(Long id) {
 		// TODO Auto-generated method stub
-		dao.delete(id);
+		repository.deleteById(id);;
 		
 	}
 
 	@Override
 	public Optional<Empleado> read(Long id) {
 		// TODO Auto-generated method stub
-		return dao.read(id);
+		return repository.findById(id);
 	}
 
 	@Override
 	public List<Empleado> readAll() {
 		// TODO Auto-generated method stub
-		return dao.readAll();
+		return repository.findAll();
 	}
 
 }
