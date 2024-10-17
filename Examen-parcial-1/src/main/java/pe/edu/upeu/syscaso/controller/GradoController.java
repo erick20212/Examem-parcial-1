@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 import jakarta.validation.Valid;
 import pe.edu.upeu.syscaso.entity.Curso;
 import pe.edu.upeu.syscaso.entity.Grado;
+import pe.edu.upeu.syscaso.entity.Matricula;
 import pe.edu.upeu.syscaso.service.GradoService;
 
 @RestController
@@ -74,14 +75,14 @@ public class GradoController {
 		
 	}
 	@PutMapping("/{id}")
-	public ResponseEntity<?> updateGrado(@PathVariable Long id, @Valid @RequestBody Grado obj){
-
-			Optional<Grado> objeto = service.read(id);
-			if(objeto.isEmpty()) {
-				return new ResponseEntity<>(service.update(obj), HttpStatus.OK);
-			}else {
-				return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-			}		
-		
+	public ResponseEntity<Grado> updateGrado(@PathVariable Long id, @Valid @RequestBody Grado obj) {
+	    Optional<Grado> objeto = service.read(id);
+	    if (objeto.isPresent()) {
+	        // Aquí se asume que el servicio actualiza el objeto y lo retorna
+	    	Grado actualizado = service.update(obj);
+	        return new ResponseEntity<>(actualizado, HttpStatus.OK);
+	    } else {
+	        return new ResponseEntity<>(HttpStatus.NOT_FOUND); // 404 si no se encuentra el objeto
+	    }		
 	}
 }

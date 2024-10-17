@@ -74,14 +74,14 @@ public class AlumnoController {
 		
 	}
 	@PutMapping("/{id}")
-	public ResponseEntity<?> updateAcceso(@PathVariable Long id, @Valid @RequestBody Alumno obj){
-
-			Optional<Alumno> objeto = service.read(id);
-			if(objeto.isEmpty()) {
-				return new ResponseEntity<>(service.update(obj), HttpStatus.OK);
-			}else {
-				return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-			}		
-		
+	public ResponseEntity<Alumno> updateAlumno(@PathVariable Long id, @Valid @RequestBody Alumno obj) {
+	    Optional<Alumno> objeto = service.read(id);
+	    if (objeto.isPresent()) {
+	        // Aquí se asume que el servicio actualiza el objeto y lo retorna
+	    	Alumno actualizado = service.update(obj);
+	        return new ResponseEntity<>(actualizado, HttpStatus.OK);
+	    } else {
+	        return new ResponseEntity<>(HttpStatus.NOT_FOUND); // 404 si no se encuentra el objeto
+	    }		
 	}
 }

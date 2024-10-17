@@ -42,8 +42,8 @@ public class Alumno {
 	@Column(name = "fecha_nacimiento")
 	@Temporal(TemporalType.DATE)
 	private Date fecha_nacimiento;
-	@Column(name = "correo")
-	private char  correo;
+	@Column(name = "correo", length = 100)
+	private String  correo;
 	
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "alumno")
     @JsonIgnore

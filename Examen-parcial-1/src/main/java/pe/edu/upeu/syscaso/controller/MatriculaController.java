@@ -66,16 +66,14 @@ public class MatriculaController {
     }
     
     @PutMapping("/{id}")
-    public ResponseEntity<Matricula> updateMatricula(@PathVariable Long id, @Valid @RequestBody Matricula obj) {
-        try {
-            Optional<Matricula> existingMatricula = service.read(id);
-            if (existingMatricula.isPresent()) {
-                Matricula updatedMatricula = service.update(obj);
-                return new ResponseEntity<>(updatedMatricula, HttpStatus.OK);
-            }
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        } catch (Exception e) {
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-    }
+	public ResponseEntity<Matricula> updateMatricula(@PathVariable Long id, @Valid @RequestBody Matricula obj) {
+	    Optional<Matricula> objeto = service.read(id);
+	    if (objeto.isPresent()) {
+	        // Aquí se asume que el servicio actualiza el objeto y lo retorna
+	    	Matricula actualizado = service.update(obj);
+	        return new ResponseEntity<>(actualizado, HttpStatus.OK);
+	    } else {
+	        return new ResponseEntity<>(HttpStatus.NOT_FOUND); // 404 si no se encuentra el objeto
+	    }		
+	}
 }

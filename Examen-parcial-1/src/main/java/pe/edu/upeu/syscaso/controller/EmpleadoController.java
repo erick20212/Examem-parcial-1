@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import jakarta.validation.Valid;
 import pe.edu.upeu.syscaso.entity.Empleado;
+import pe.edu.upeu.syscaso.entity.Grado;
 import pe.edu.upeu.syscaso.service.EmpleadoService;
 
 @RestController
@@ -73,14 +74,14 @@ public class EmpleadoController {
 		
 	}
 	@PutMapping("/{id}")
-	public ResponseEntity<?> updateEmpleado(@PathVariable Long id, @Valid @RequestBody Empleado obj){
-
-			Optional<Empleado> objeto = service.read(id);
-			if(objeto.isEmpty()) {
-				return new ResponseEntity<>(service.update(obj), HttpStatus.OK);
-			}else {
-				return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-			}		
-		
+	public ResponseEntity<Empleado> updateEmpleado(@PathVariable Long id, @Valid @RequestBody Empleado obj) {
+	    Optional<Empleado> objeto = service.read(id);
+	    if (objeto.isPresent()) {
+	        // Aquí se asume que el servicio actualiza el objeto y lo retorna
+	    	Empleado actualizado = service.update(obj);
+	        return new ResponseEntity<>(actualizado, HttpStatus.OK);
+	    } else {
+	        return new ResponseEntity<>(HttpStatus.NOT_FOUND); // 404 si no se encuentra el objeto
+	    }		
 	}
 }

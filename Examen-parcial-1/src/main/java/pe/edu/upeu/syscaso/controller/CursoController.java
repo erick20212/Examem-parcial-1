@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import jakarta.validation.Valid;
 import pe.edu.upeu.syscaso.entity.Curso;
+import pe.edu.upeu.syscaso.entity.Empleado;
 import pe.edu.upeu.syscaso.service.CursoService;
 
 @RestController
@@ -61,26 +62,15 @@ public class CursoController {
 		}
 		
 	}
-	@DeleteMapping("/{id}")
-	public ResponseEntity<Curso> delCurso(@PathVariable Long id){
-		try {
-			service.delete(id);
-			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-		} catch (Exception e) {
-			// TODO: handle exception
-			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
-		}
-		
-	}
 	@PutMapping("/{id}")
-	public ResponseEntity<?> updateCurso(@PathVariable Long id, @Valid @RequestBody Curso obj){
-
-			Optional<Curso> objeto = service.read(id);
-			if(objeto.isEmpty()) {
-				return new ResponseEntity<>(service.update(obj), HttpStatus.OK);
-			}else {
-				return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-			}		
-		
+	public ResponseEntity<Curso> updateCursoo(@PathVariable Long id, @Valid @RequestBody Curso obj) {
+	    Optional<Curso> objeto = service.read(id);
+	    if (objeto.isPresent()) {
+	        // Aquí se asume que el servicio actualiza el objeto y lo retorna
+	    	Curso actualizado = service.update(obj);
+	        return new ResponseEntity<>(actualizado, HttpStatus.OK);
+	    } else {
+	        return new ResponseEntity<>(HttpStatus.NOT_FOUND); // 404 si no se encuentra el objeto
+	    }		
 	}
 }
